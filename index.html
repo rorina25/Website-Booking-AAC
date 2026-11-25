@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIP-AAC USK | Sistem Pemesanan Gedung AAC Dayan Dawood</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="./js/tailwind.config.js"></script>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- Top Institutional Banner -->
+  <div class="bg-[#1A365D] text-white text-xs py-2 px-4 border-b border-[#D69E2E]/40">
+    <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2 h-2 rounded-full bg-[#D69E2E]"></span>
+        <span class="font-medium tracking-wide">UNIVERSITAS SYIAH KUALA <span class="hidden sm:inline">• BIRO UMUM DAN KEUANGAN (BUK)</span></span>
+      </div>
+      <div class="hidden sm:flex items-center gap-4 text-slate-200">
+        <span>LAYANAN INFORMASI & PEMESANAN GEDUNG</span>
+        <span class="hidden sm:inline">|</span>
+        <span class="hidden sm:inline text-[#F6E05E] font-medium">Gedung Academic Activity Center (AAC) Dayan Dawood</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Header & Navigation -->
+  <header class="glass-header site-header z-40 border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between py-3 gap-3">
+        <!-- Brand -->
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('beranda')">
+            <div class="brand-mark w-12 h-12 rounded-2xl flex items-center justify-center border border-[#D69E2E]/60 p-1.5">
+              <img src="./usk-icon.png" alt="Lambang Universitas Syiah Kuala" class="w-full h-full object-contain">
+            </div>
+            <div>
+              <h1 class="text-base sm:text-lg font-bold text-[#1A365D] leading-tight">SIP-AAC Dayan Dawood</h1>
+              <p class="text-xs text-slate-500">Sistem Informasi Pemesanan Gedung USK</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0" aria-label="Tabs">
+          <button onclick="switchTab('beranda')" id="nav-beranda" class="nav-btn tab-active px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            Beranda & Kalender
+          </button>
+          <button onclick="switchTab('pricelist')" id="nav-pricelist" class="nav-btn text-slate-600 hover:bg-slate-100 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+            Daftar Tarif
+          </button>
+          <button onclick="switchTab('booking')" id="nav-booking" class="nav-btn text-slate-600 hover:bg-slate-100 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            Form Booking
+          </button>
+          <button onclick="switchTab('pemohon')" id="nav-pemohon" class="nav-btn text-slate-600 hover:bg-slate-100 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+            Dashboard Pemohon
+            <span id="badge-pemohon-count" class="ml-0.5 px-1.5 py-0.2 text-[10px] rounded-full bg-[#D69E2E] text-white font-bold">2</span>
+          </button>
+          <button onclick="switchTab('admin')" id="nav-admin" class="nav-btn text-slate-600 hover:bg-slate-100 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap flex items-center gap-1.5 border border-slate-200">
+            <svg class="w-4 h-4 text-[#D69E2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            Admin Pengelola
+          </button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- ==================== TAB 1: BERANDA & KALENDER ==================== -->
+    <section id="tab-beranda" class="tab-content space-y-6">
+      <!-- Hero Card -->
+      <div class="hero-panel relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#1A365D] via-[#1E4276] to-[#2B6CB0] text-white p-6 sm:p-9 shadow-lg border border-[#1A365D]">
+        <img class="hero-photo" src="./assets/aac-building.jpg" alt="" fetchpriority="high">
+        <div class="hero-content relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <div class="lg:col-span-8 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-[#F6E05E] text-xs font-semibold border border-white/20">
+              <span>UNIVERSITAS SYIAH KUALA · DARUSSALAM, BANDA ACEH</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight">
+              Momen besar,<br>dimulai di <span class="text-[#F6E05E]">AAC.</span>
+            </h2>
+            <p class="text-sm sm:text-base text-slate-200 max-w-2xl leading-relaxed">
+              Gedung Academic Activity Center (AAC) Prof. Dr. Dayan Dawood, MA menjadi ruang untuk pertemuan, perayaan, dan momen penting. Jelajahi fasilitas, cek jadwal, dan ajukan pemesanan dengan mudah.
+            </p>
+            <div class="flex flex-wrap gap-3 pt-1">
+              <button onclick="switchTab('booking')" class="hero-cta-primary px-5 py-2.5 rounded-xl bg-[#D69E2E] hover:bg-amber-500 text-slate-950 font-bold text-sm shadow-md transition-all flex items-center gap-2">
+                <span>Ajukan Pemesanan Sekarang</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+              </button>
+              <button onclick="switchTab('pricelist')" class="hero-cta-secondary px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-sm border border-white/25 transition-all">
+                Lihat Daftar Tarif Resmi
+              </button>
+            </div>
+          </div>
+
+          <!-- Facility Highlights -->
+          <div class="lg:col-span-4 grid grid-cols-2 gap-3">
+            <div class="bg-white/10 backdrop-blur-sm p-3.5 rounded-xl border border-white/15">
+              <div class="text-[#F6E05E] font-extrabold text-xl">± 2.500</div>
+              <div class="text-xs text-slate-200 mt-0.5">Kapasitas Event Hall Utama & Balkon</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm p-3.5 rounded-xl border border-white/15">
+              <div class="text-[#F6E05E] font-extrabold text-xl">8 Zona</div>
+              <div class="text-xs text-slate-200 mt-0.5">Event Hall, VIP, Lobby & Flamboyan</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm p-3.5 rounded-xl border border-white/15">
+              <div class="text-[#F6E05E] font-extrabold text-sm">Smart Locking</div>
+              <div class="text-xs text-slate-200 mt-0.5">Anti Bentrok Paket & Ruangan Satuan</div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-sm p-3.5 rounded-xl border border-white/15">
+              <div class="text-[#F6E05E] font-extrabold text-sm">Full Fasilitas</div>
+              <div class="text-xs text-slate-200 mt-0.5">AC Sentral, Ruang VIP, Genset & Parkir Luas</div>
+            </div>
+          </div>
+        </div>
+        <a class="hero-scroll-cue" href="#venue-story">
+          <span class="hero-scroll-icon" aria-hidden="true"></span>
+          <span>Gulir untuk mengenal AAC</span>
+        </a>
+        <div class="hero-glow absolute -right-16 -bottom-16 w-64 h-64 rounded-full bg-[#D69E2E]/15 pointer-events-none"></div>
+      </div>
+
+      <section id="venue-story" class="venue-story scroll-reveal" aria-labelledby="venue-story-title">
+        <div class="venue-story-copy">
+          <span class="venue-story-kicker">RUANG UNTUK MOMEN BESAR</span>
+          <h2 id="venue-story-title">Setiap acara punya panggungnya sendiri.</h2>
+          <p>
+            Dari prosesi wisuda hingga pertemuan berskala besar, AAC Dayan Dawood menghadirkan ruang yang fleksibel di lingkungan Universitas Syiah Kuala.
+          </p>
+          <div class="venue-story-facts">
+            <div><strong>8 zona</strong><span>pilihan ruang</span></div>
+            <div><strong>± 2.500</strong><span>kapasitas utama</span></div>
+          </div>
+          <button onclick="switchTab('pricelist')" class="venue-story-link">
+            Jelajahi ruang & tarif
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </button>
+        </div>
+        <div class="venue-story-photos" aria-label="Dokumentasi kegiatan di AAC">
+          <figure class="story-photo story-photo-main">
+            <img src="./assets/usk-graduation-2.jpg" alt="Suasana prosesi wisuda di dalam Event Hall AAC" loading="lazy">
+            <figcaption>Ruang utama · Prosesi wisuda USK</figcaption>
+          </figure>
+          <figure class="story-photo story-photo-inset">
+            <img src="./assets/usk-graduation-5.jpg" alt="Wisudawan USK mengikuti prosesi di dalam AAC" loading="lazy">
+            <figcaption>Momen bersama USK</figcaption>
+          </figure>
+          <span class="story-photo-credit">Dokumentasi Universitas Syiah Kuala · 2025</span>
+        </div>
+      </section>
+
+      <!-- Interactive Calendar & Smart Room Locking Inspector -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 scroll-reveal">
+        <!-- Calendar Column -->
+        <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
+            <div>
+              <h3 class="text-lg font-bold text-[#1A365D]">Kalender Ketersediaan Gedung</h3>
+              <p class="text-xs text-slate-500">Klik pada tanggal untuk memeriksa rincian ketersediaan tiap zona ruangan</p>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-100 p-1 rounded-xl self-start sm:self-auto">
+              <button onclick="changeMonth(-1)" class="p-1.5 rounded-lg hover:bg-white text-slate-700 transition" title="Bulan Sebelumnya">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+              </button>
+              <span id="calendar-month-label" class="text-sm font-bold text-[#1A365D] px-2 min-w-[130px] text-center">November 2026</span>
+              <button onclick="changeMonth(1)" class="p-1.5 rounded-lg hover:bg-white text-slate-700 transition" title="Bulan Berikutnya">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Legend -->
+          <div class="flex flex-wrap items-center gap-4 py-3 text-xs font-medium text-slate-600">
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-md bg-emerald-100 border border-emerald-500 inline-block"></span>
+              <span>Tersedia Penuh</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-md bg-amber-100 border border-amber-500 inline-block"></span>
+              <span>Sebagian / Pending Verifikasi</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded-md bg-rose-100 border border-rose-500 inline-block"></span>
+              <span>Booked / Agenda USK</span>
+            </div>
+          </div>
+
+          <!-- Day Headers -->
+          <div class="grid grid-cols-7 gap-1.5 text-center text-xs font-bold text-slate-400 py-2">
+            <div>Min</div><div>Sen</div><div>Sel</div><div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div>
+          </div>
+
+          <!-- Calendar Grid -->
+          <div id="calendar-grid" class="grid grid-cols-7 gap-1.5">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Room Status Inspector Column (Smart Room Locking) -->
+        <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-[#2B6CB0]">Smart Room Locking Inspector</span>
+                <h3 id="selected-date-title" class="text-lg font-bold text-[#1A365D] mt-0.5">Pilih Tanggal di Kalender</h3>
+              </div>
+              <span id="selected-date-badge" class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">Tersedia</span>
+            </div>
+
+            <!-- Event Info on Selected Date -->
+            <div id="selected-date-events" class="mt-4 space-y-2.5">
+              <!-- Populated by JS -->
+            </div>
+
+            <!-- 6 Sub-zones Status List -->
+            <div class="mt-5">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">Status 8 Zona Ruangan Gedung AAC:</h4>
+              <div id="room-zones-status" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+            <p class="text-xs text-slate-500">Ingin menggunakan ruangan pada tanggal ini?</p>
+            <button onclick="bookSelectedDate()" class="px-4 py-2 rounded-xl bg-[#1A365D] hover:bg-[#2B6CB0] text-white text-xs font-bold transition shadow-sm whitespace-nowrap">
+              Booking Tanggal Ini →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <section class="venue-gallery scroll-reveal" aria-labelledby="venue-gallery-title">
+        <div class="venue-gallery-heading">
+          <div>
+            <span class="venue-story-kicker">POTRET GEDUNG AAC</span>
+            <h2 id="venue-gallery-title">Banyak momen. Satu ruang yang berarti.</h2>
+          </div>
+          <p>Kenali suasana AAC Dayan Dawood, lalu temukan ruang yang tepat untuk acara Anda.</p>
+        </div>
+        <div class="venue-gallery-grid">
+          <figure class="venue-gallery-card venue-gallery-card-feature">
+            <img src="./assets/usk-graduation-3.jpg" alt="Prosesi wisuda berlangsung di panggung Event Hall AAC" loading="lazy">
+            <figcaption><span>01 · EVENT HALL</span><strong>Panggung untuk pencapaian besar</strong></figcaption>
+          </figure>
+          <figure class="venue-gallery-card">
+            <img src="./assets/usk-graduation-4.jpg" alt="Suasana prosesi wisuda di dalam Gedung AAC USK" loading="lazy">
+            <figcaption><span>02 · MOMEN BERSAMA</span><strong>Ruang untuk berkumpul</strong></figcaption>
+          </figure>
+          <figure class="venue-gallery-card">
+            <img src="./assets/aac-building.jpg" alt="Tampak luar Gedung AAC Dayan Dawood" loading="lazy">
+            <figcaption><span>03 · DARUSSALAM</span><strong>Berada di lingkungan kampus USK</strong></figcaption>
+          </figure>
+        </div>
+        <p class="venue-gallery-credit">Dokumentasi kegiatan dan gedung: Universitas Syiah Kuala.</p>
+      </section>
+    </section>
+
+    <!-- ==================== TAB 2: DAFTAR TARIF (PRICELIST) ==================== -->
+    <section id="tab-pricelist" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-100">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-[#D69E2E]">Tarif Resmi Pengelolaan Gedung AAC</span>
+            <h2 class="text-2xl font-extrabold text-[#1A365D] mt-1">Daftar Paket & Tarif Sewa Ruangan</h2>
+            <p class="text-sm text-slate-500 mt-1">Pilih kategori kegiatan untuk melihat rincian kombinasi ruangan, satuan waktu, dan tarif dasar.</p>
+          </div>
+          <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-[#1A365D] max-w-sm">
+            <strong>Catatan Internal USK:</strong> Kegiatan kemahasiswaan/unit kerja USK tetap memilih paket yang sesuai untuk penguncian jadwal ruangan dan melampirkan surat disposisi resmi.
+          </div>
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div class="flex flex-wrap gap-2 py-4" id="pricelist-filters">
+          <button onclick="filterPricelist('ALL')" data-cat="ALL" class="pl-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#1A365D] text-white shadow-sm transition">
+            Semua Kategori
+          </button>
+          <button onclick="filterPricelist('Seminar')" data-cat="Seminar" class="pl-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+            A. Seminar
+          </button>
+          <button onclick="filterPricelist('Resepsi')" data-cat="Resepsi" class="pl-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+            B. Resepsi
+          </button>
+          <button onclick="filterPricelist('Pameran')" data-cat="Pameran" class="pl-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+            C. Pameran
+          </button>
+          <button onclick="filterPricelist('Wisuda')" data-cat="Wisuda" class="pl-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+            D. Wisuda
+          </button>
+          <button onclick="filterPricelist('Komersil')" data-cat="Komersil" class="pl-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+            E. Komersil (Konser)
+          </button>
+        </div>
+
+        <!-- Pricelist Cards Grid -->
+        <div id="pricelist-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-2">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: FORMULIR BOOKING & KALKULATOR ==================== -->
+    <section id="tab-booking" class="tab-content hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Form Column -->
+        <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-5">
+          <div class="border-b border-slate-100 pb-4">
+            <h2 class="text-xl font-extrabold text-[#1A365D]">Formulir Pengajuan Pemesanan Gedung</h2>
+            <p class="text-xs text-slate-500 mt-1">Lengkapi detail kegiatan dan unggah surat permohonan resmi untuk diverifikasi pengelola.</p>
+          </div>
+
+          <form id="booking-form" onsubmit="submitBooking(event)" class="space-y-4">
+            <!-- Kategori Pemohon -->
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">1. Kategori Pemohon *</label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label class="cursor-pointer">
+                  <input type="radio" name="applicantType" value="Internal USK" class="peer sr-only" checked onchange="calculateBookingCost()">
+                  <div class="p-3.5 rounded-xl border-2 border-slate-200 peer-checked:border-[#1A365D] peer-checked:bg-blue-50/50 transition">
+                    <div class="font-bold text-sm text-[#1A365D]">Internal USK</div>
+                    <div class="text-xs text-slate-500 mt-0.5">Ormawa, BEM, Himpunan, Fakultas, Unit Kerja USK</div>
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="applicantType" value="Eksternal / Umum" class="peer sr-only" onchange="calculateBookingCost()">
+                  <div class="p-3.5 rounded-xl border-2 border-slate-200 peer-checked:border-[#1A365D] peer-checked:bg-blue-50/50 transition">
+                    <div class="font-bold text-sm text-[#1A365D]">Eksternal / Umum</div>
+                    <div class="text-xs text-slate-500 mt-0.5">Ikatan Alumni, Instansi Pemerintah, EO, Masyarakat</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Kategori Acara & Paket -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="form-category" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">2. Kategori Acara *</label>
+                <select id="form-category" onchange="onCategoryChange()" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#2B6CB0]">
+                  <option value="Seminar">A. Kegiatan Seminar</option>
+                  <option value="Resepsi">B. Kegiatan Resepsi</option>
+                  <option value="Pameran">C. Kegiatan Pameran</option>
+                  <option value="Wisuda">D. Kegiatan Wisuda</option>
+                  <option value="Komersil">E. Komersil (Konser)</option>
+                </select>
+              </div>
+
+              <div id="package-select-wrapper">
+                <label for="form-package" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">3. Paket / Ruangan *</label>
+                <select id="form-package" onchange="calculateBookingCost()" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#2B6CB0]">
+                  <!-- Populated dynamically -->
+                </select>
+              </div>
+            </div>
+
+            <!-- Tanggal & Durasi -->
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="form-date" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Tanggal Mulai Acara (Hari-H) *</label>
+                  <input type="date" id="form-date" onchange="calculateBookingCost()" required class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#2B6CB0]">
+                </div>
+
+                <!-- Standard Duration (Per Hari) -->
+                <div id="duration-days-wrapper">
+                  <label for="form-days" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Durasi Pemakaian (Hari) *</label>
+                  <input type="number" id="form-days" min="1" max="14" value="1" oninput="calculateBookingCost()" class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#2B6CB0]">
+                </div>
+              </div>
+
+              <!-- Concert Specific Duration (Per Jam H-1 & Hari-H) -->
+              <div id="duration-concert-wrapper" class="hidden grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-slate-200">
+                <div>
+                  <label for="form-hours-h1" class="block text-xs font-bold text-[#1A365D] mb-1">Durasi Persiapan H-1 (Jam)</label>
+                  <input type="number" id="form-hours-h1" min="0" max="24" value="6" oninput="calculateBookingCost()" class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#2B6CB0]">
+                  <span id="form-hours-h1-rate" class="text-[11px] text-slate-500"></span>
+                </div>
+                <div>
+                  <label for="form-hours-h" class="block text-xs font-bold text-[#1A365D] mb-1">Durasi Pelaksanaan Hari-H (Jam) *</label>
+                  <input type="number" id="form-hours-h" min="1" max="24" value="8" oninput="calculateBookingCost()" class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#2B6CB0]">
+                  <span id="form-hours-h-rate" class="text-[11px] text-slate-500"></span>
+                </div>
+              </div>
+
+              <!-- Smart Room Locking Alert Box -->
+              <div id="conflict-alert" class="hidden rounded-xl p-3.5 border text-xs leading-relaxed"></div>
+            </div>
+
+            <!-- Identitas Kegiatan & Pemohon -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="form-event-name" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Nama Kegiatan / Acara *</label>
+                <input type="text" id="form-event-name" placeholder="Contoh: Seminar Nasional Teknologi USK 2026" required class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2B6CB0]">
+              </div>
+              <div>
+                <label for="form-org-name" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Nama Pemohon / Instansi *</label>
+                <input type="text" id="form-org-name" placeholder="Contoh: BEM Fakultas Teknik USK" required class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2B6CB0]">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="form-phone" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">No. WhatsApp Penanggung Jawab *</label>
+                <input type="tel" id="form-phone" placeholder="0821-XXXX-XXXX" required class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2B6CB0]">
+              </div>
+              <div>
+                <label for="form-participants" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Estimasi Jumlah Peserta</label>
+                <input type="number" id="form-participants" placeholder="Contoh: 500" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#2B6CB0]">
+              </div>
+            </div>
+
+            <!-- Upload Surat Permohonan -->
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Unggah Surat Permohonan Resmi (PDF) *</label>
+              <label for="form-file" class="flex items-center justify-between gap-3 p-3.5 rounded-xl border-2 border-dashed border-slate-300 hover:border-[#2B6CB0] bg-slate-50 cursor-pointer transition">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-blue-100 text-[#1A365D] flex items-center justify-center">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                  </div>
+                  <div>
+                    <div id="file-label-text" class="text-sm font-semibold text-slate-700">Klik untuk pilih file Surat_Permohonan.pdf</div>
+                    <div class="text-[11px] text-slate-500">Format PDF, maksimal 5 MB.</div>
+                  </div>
+                </div>
+                <span class="px-3 py-1 rounded-lg bg-white border border-slate-200 text-xs font-semibold text-slate-700">Pilih File</span>
+                <input type="file" id="form-file" accept=".pdf,application/pdf" required class="hidden" onchange="handleFileSelect(this)">
+              </label>
+            </div>
+
+            <div class="pt-2">
+              <button type="submit" id="submit-booking-btn" class="w-full py-3.5 px-6 rounded-xl bg-[#1A365D] hover:bg-[#2B6CB0] text-white font-bold text-sm shadow-md transition flex items-center justify-center gap-2">
+                <span>Kirim Pengajuan Pemesanan</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Sticky Cost Summary Column -->
+        <div class="lg:col-span-5">
+          <div class="bg-[#1A365D] text-white rounded-2xl p-6 shadow-lg sticky top-24 space-y-5 border border-[#2B6CB0]">
+            <div class="flex items-center justify-between border-b border-white/15 pb-4">
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-[#F6E05E]">Kalkulator Tarif Real-Time</span>
+                <h3 class="text-lg font-bold mt-0.5">Ringkasan Estimasi Biaya</h3>
+              </div>
+              <span id="summary-applicant-badge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-[#D69E2E] text-slate-950">Internal USK</span>
+            </div>
+
+            <div class="space-y-3 text-sm">
+              <div class="flex justify-between gap-2">
+                <span class="text-slate-300">Kategori Acara:</span>
+                <span id="summary-category" class="font-semibold text-right">Kegiatan Seminar</span>
+              </div>
+              <div class="flex justify-between gap-2">
+                <span class="text-slate-300">Paket / Ruangan:</span>
+                <span id="summary-package" class="font-semibold text-right max-w-[220px]">Ruang Event Hall + Lobby Bawah</span>
+              </div>
+              <div class="flex justify-between gap-2">
+                <span class="text-slate-300">Tanggal Acara:</span>
+                <span id="summary-date" class="font-semibold text-right">-</span>
+              </div>
+              <div class="flex justify-between gap-2">
+                <span class="text-slate-300">Rincian Durasi:</span>
+                <span id="summary-duration" class="font-semibold text-right">1 Hari</span>
+              </div>
+            </div>
+
+            <!-- Zone Lock Preview -->
+            <div class="bg-white/10 rounded-xl p-3.5 space-y-2">
+              <div class="text-xs font-bold text-[#F6E05E]">Zona Ruangan yang Akan Dikunci:</div>
+              <div id="summary-locked-zones" class="flex flex-wrap gap-1.5">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <div class="border-t border-white/15 pt-4 space-y-1.5">
+              <div class="flex justify-between items-baseline">
+                <span class="text-xs uppercase tracking-wider text-slate-300">Estimasi Total Tarif</span>
+                <span id="summary-total-price" class="text-2xl sm:text-3xl font-extrabold text-[#F6E05E]">Rp 8.500.000</span>
+              </div>
+              <p id="summary-internal-note" class="text-[11px] text-slate-300 leading-relaxed">
+                *Untuk kegiatan resmi Internal USK (Ormawa/Fakultas), tarif komersial di atas menjadi acuan nilai fasilitas dan dapat dibebaskan/disesuaikan berdasarkan disposisi Rektorat/BUK.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: DASHBOARD PEMOHON ==================== -->
+    <section id="tab-pemohon" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-[#2B6CB0]">Portal Pelacakan Pengajuan</span>
+            <h2 class="text-2xl font-extrabold text-[#1A365D] mt-0.5">Dashboard Status Pemohon</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">Pantau status verifikasi dan tindak lanjut pemesanan bersama pengelola AAC.</p>
+          </div>
+          <button onclick="switchTab('booking')" class="px-4 py-2.5 rounded-xl bg-[#1A365D] hover:bg-[#2B6CB0] text-white text-xs font-bold transition self-start sm:self-auto">
+            + Buat Pengajuan Baru
+          </button>
+        </div>
+
+        <!-- Applicant Bookings List -->
+        <div id="pemohon-bookings-list" class="mt-6 space-y-4">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 5: DASHBOARD ADMIN PENGELOLA ==================== -->
+    <section id="tab-admin" class="tab-content hidden space-y-6">
+      <!-- Stats Row -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Pengajuan</div>
+          <div id="stat-total" class="text-3xl font-extrabold text-[#1A365D] mt-1">0</div>
+          <div class="text-xs text-slate-500 mt-1">Semua kategori acara</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="text-xs font-bold uppercase tracking-wider text-amber-600">Perlu Verifikasi</div>
+          <div id="stat-pending" class="text-3xl font-extrabold text-amber-600 mt-1">0</div>
+          <div class="text-xs text-slate-500 mt-1">Menunggu tinjauan surat / bayar</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="text-xs font-bold uppercase tracking-wider text-emerald-600">Terkonfirmasi (Booked)</div>
+          <div id="stat-booked" class="text-3xl font-extrabold text-emerald-600 mt-1">0</div>
+          <div class="text-xs text-slate-500 mt-1">Jadwal resmi terkunci</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+          <div class="text-xs font-bold uppercase tracking-wider text-[#2B6CB0]">Estimasi Pendapatan</div>
+          <div id="stat-revenue" class="text-xl font-extrabold text-[#1A365D] mt-2">Rp 0</div>
+          <div class="text-xs text-slate-500 mt-1">Dari pemesanan eksternal</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Incoming Requests Management -->
+        <div class="lg:col-span-8 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+          <div class="pb-4 border-b border-slate-100 flex items-center justify-between">
+            <div>
+              <h3 class="text-lg font-bold text-[#1A365D]">Verifikasi Pengajuan Masuk</h3>
+              <p class="text-xs text-slate-500">Pengelolaan pengajuan, jadwal, dan agenda Gedung AAC Dayan Dawood.</p>
+            </div>
+          </div>
+
+          <div id="admin-bookings-list" class="mt-4 space-y-3">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Block Campus Routine Schedule -->
+        <div class="lg:col-span-4 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 self-start">
+          <div class="pb-3 border-b border-slate-100">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-[#D69E2E]">Agenda Rutin Universitas</span>
+            <h3 class="text-lg font-bold text-[#1A365D] mt-0.5">Blokir Tanggal Kampus</h3>
+            <p class="text-xs text-slate-500 mt-1">Kunci seluruh ruangan gedung untuk Wisuda USK, Dies Natalis, atau pemeliharaan.</p>
+          </div>
+
+          <form onsubmit="blockCampusDate(event)" class="space-y-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Tanggal Blokir *</label>
+              <input type="date" id="block-date-input" required class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#2B6CB0]">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Keterangan Agenda USK *</label>
+              <input type="text" id="block-title-input" placeholder="Contoh: Wisuda Periode IV USK" required class="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#2B6CB0]">
+            </div>
+            <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-sm transition">
+              Kunci Tanggal di Kalender Publik
+            </button>
+          </form>
+
+          <div class="pt-3 border-t border-slate-100">
+            <h4 class="text-xs font-bold text-slate-500 uppercase mb-2">Daftar Tanggal Terblokir:</h4>
+            <div id="blocked-dates-list" class="space-y-2 text-xs">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 mt-12 py-6 px-4">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+      <div>
+        <strong class="text-[#1A365D]">Gedung AAC Dayan Dawood — Universitas Syiah Kuala</strong> • Jl. Teuku Nyak Arief, Darussalam, Banda Aceh
+      </div>
+      <div>Layanan Informasi & Pemesanan Gedung AAC USK</div>
+    </div>
+  </footer>
+
+  <!-- ==================== MODAL: RESERVATION SUMMARY ==================== -->
+  <div id="reservation-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-200 animate-fade-in">
+      <div class="bg-gradient-to-r from-[#1A365D] to-[#2B6CB0] p-5 text-white flex items-center justify-between">
+        <div>
+          <span class="text-[10px] uppercase tracking-widest text-[#F6E05E] font-bold">Universitas Syiah Kuala</span>
+          <h3 class="text-base font-extrabold">Ringkasan Reservasi Gedung AAC</h3>
+        </div>
+        <button onclick="closeReservationSummary()" class="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div id="reservation-modal-body" class="p-6 space-y-4">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="print-hidden bg-slate-50 px-6 py-3.5 border-t border-slate-200 flex justify-end gap-2">
+        <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-[#1A365D] text-white text-xs font-bold hover:bg-[#2B6CB0] transition">
+          Cetak / Simpan PDF
+        </button>
+        <button onclick="closeReservationSummary()" class="px-4 py-2 rounded-xl bg-slate-200 text-slate-700 text-xs font-bold hover:bg-slate-300 transition">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+  <script src="./js/data.js"></script>
+  <script src="./js/app.js"></script>
+</body>
+</html>
